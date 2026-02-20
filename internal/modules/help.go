@@ -121,7 +121,7 @@ func helpCallbackHandler(c *tg.CallbackQuery) error {
 	c.Edit(text, &tg.SendOptions{ReplyMarkup: btn})
 	return tg.ErrEndGroup
 }
-	switch parts[1] {
+		switch parts[1] {
 	case "admins":
 		text = F(chatID, "help_admin")
 	case "sudoers":
