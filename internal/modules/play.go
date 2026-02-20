@@ -50,116 +50,97 @@ type playOpts struct {
 const playMaxRetries = 3
 
 func init() {
-	helpTexts["/play"] = `<i>Play a song in the voice chat from YouTube, Spotify, or other sources.</i>
+	helpTexts["/oynat"] = `<i>Sesli sohbette YouTube, Spotify veya diğer kaynaklardan müzik çalın.</i>
 
-<u>Usage:</u>
-<b>/play [query/URL]</b> — Search and play a song
-<b>/play [reply to audio/video]</b> — Play replied media
+<u>Kullanım:</u>
+<b>/oynat [sorgu/URL]</b> — Şarkı ara ve çal
+<b>/oynat [yanıtlanan ses/video]</b> — Yanıtlanan medyayı çal
 
-<b>🎵 Supported Sources:</b>
-• YouTube (videos, playlists)
-• Spotify (tracks, albums, playlists)
+<b>🎵 Desteklenen Kaynaklar:</b>
+• YouTube (videolar, oynatma listeleri)
+• Spotify (şarkılar, albümler, oynatma listeleri)
 • SoundCloud
-• Direct audio/video links
+• Doğrudan ses/video bağlantıları
 
-<b>⚙️ Features:</b>
-• Queue support - adds to end if already playing
-• Auto-join voice chat if not present
-• Duration limit check
-• Multiple track support (playlists)
+<b>⚙️ Özellikler:</b>
+• Sıra desteği - zaten çalıyorsa sona ekler
+• Sesli sohbete otomatik katılım
+• Süre sınırı kontrolü
+• Çoklu parça desteği (oynatma listeleri)
 
-<b>💡 Examples:</b>
-<code>/play never gonna give you up</code>
-<code>/play https://youtu.be/dQw4w9WgXcQ</code>
-<code>/play https://open.spotify.com/track/...</code>
+<b>💡 Örnekler:</b>
+<code>/oynat tarkan yolla</code>
+<code>/oynat https://youtu.be/dQw4w9WgXcQ</code>
 
-<b>⚠️ Notes:</b>
-• Bot must have proper permissions in voice chat
-• Tracks exceeding duration limit will be skipped
-• Use <code>/queue</code> to view upcoming tracks
-• Use <code>/fplay</code> to force play (skip queue)`
+<b>⚠️ Notlar:</b>
+• Botun sesli sohbette gerekli izinlere sahip olması gerekir
+• Süre sınırını aşan parçalar atlanır
+• Yaklaşan parçaları görmek için <code>/sira</code> kullanın
+• Sırayı atlayıp anında çalmak için <code>/foynat</code> kullanın`
 
-	helpTexts["/fplay"] = `<i>Force play a song, skipping the current queue.</i>
+	helpTexts["/foynat"] = `<i>Sırayı atlayarak şarkıyı anında çalın.</i>
 
-<u>Usage:</u>
-<b>/fplay [query/URL]</b> — Force play immediately
-<b>/fplay [reply to audio/video]</b> — Force play replied media
+<u>Kullanım:</u>
+<b>/foynat [sorgu/URL]</b> — Anında çalmaya başla
+<b>/foynat [yanıtlanan ses/video]</b> — Yanıtlanan medyayı anında çal
 
-<b>🎵 Behavior:</b>
-• Stops current playback
-• Clears queue
-• Starts playing immediately
+<b>🎵 Davranış:</b>
+• Mevcut çalınan şarkıyı durdurur
+• Sırayı temizler
+• Anında çalmaya başlar
 
-<b>🔒 Restrictions:</b>
-• Only <b>chat admins</b> or <b>authorized users</b> can use this
+<b>🔒 Kısıtlamalar:</b>
+• Sadece <b>sohbet yöneticileri</b> veya <b>yetkili kullanıcılar</b> kullanabilir
 
-<b>💡 Example:</b>
-<code>/fplay urgent announcement track</code>
+<b>💡 Örnek:</b>
+<code>/foynat acil duyuru müziği</code>`
 
-<b>⚠️ Note:</b>
-This command is useful for urgent playback needs but will disrupt the current queue.`
+	helpTexts["/voynat"] = `<i>Sesli sohbette video içeriği oynatın (video modu).</i>
 
-	helpTexts["/vplay"] = `<i>Play video content in voice chat (video mode).</i>
+<u>Kullanım:</u>
+<b>/voynat [sorgu/URL]</b> — Videoyu oynat
+<b>/voynat [yanıtlanan video]</b> — Yanıtlanan videoyu oynat
 
-<u>Usage:</u>
-<b>/vplay [query/URL]</b> — Play video
-<b>/vplay [reply to video]</b> — Play replied video
+<b>📹 Özellikler:</b>
+• Tam video oynatma desteği
+• Ses + Video akışı
+• Ses ile aynı sıra sistemi
 
-<b>📹 Features:</b>
-• Full video playback support
-• Audio + Video streaming
-• Same queue system as audio
+<b>⚠️ Notlar:</b>
+• Video akış izinleri gerektirir
+• Zorla video oynatmak için <code>/fvoynat</code> kullanın`
 
-<b>⚠️ Notes:</b>
-• Requires video streaming permissions
-• Use <code>/fvplay</code> for force video play`
+	helpTexts["/fvoynat"] = `<i>Sırayı atlayarak video içeriğini anında oynatın.</i>
 
-	helpTexts["/fvplay"] = `<i>Force play video content, skipping queue.</i>
+<u>Kullanım:</u>
+<b>/fvoynat [sorgu/URL]</b> — Videoyu anında oynat
 
-<u>Usage:</u>
-<b>/fvplay [query/URL]</b> — Force play video immediately
+<b>🔒 Kısıtlamalar:</b>
+• Sadece yönetici/yetkili komutudur`
 
-<b>🔒 Restrictions:</b>
-• Admin/auth only command
+	helpTexts["/koynat"] = `<i>Bağlı kanalın sesli sohbetinde çalın.</i>
 
-<b>💡 Use Case:</b>
-Immediate video playback when something urgent needs to be shown.`
+<u>Kullanım:</u>
+<b>/koynat [sorgu]</b> — Bağlı kanalda çal
 
-	helpTexts["/cplay"] = `<i>Play in linked channel's voice chat.</i>
+<b>⚙️ Gerekli Kurulum:</b>
+Önce şunu kullanın: <code>/kanaloynat --set [kanal_id]</code>`
 
-<u>Usage:</u>
-<b>/cplay [query]</b> — Play in linked channel
+	helpTexts["/kanaloynat"] = `<i>Kanal oynatma modu için bağlı kanalı yapılandırın.</i>
 
-<b>⚙️ Setup Required:</b>
-First use <code>/channelplay --set [channel_id]</code>
+<u>Kullanım:</u>
+<b>/kanaloynat --set [kanal_id]</b> — Bağlı kanalı ayarla
 
-<b>⚠️ Note:</b>
-All c* commands work the same as regular commands but affect the linked channel.`
+<b>⚙️ Davranış:</b>
+• Bir kanalı mevcut gruba bağlar
+• Bot kanala erişebilmelidir
 
-	helpTexts["/channelplay"] = `<i>Configure linked channel for channel play mode.</i>
+<b>🔒 Kısıtlamalar:</b>
+• Sadece <b>sohbet yöneticileri</b> yapılandırabilir`
 
-<u>Usage:</u>
-<b>/channelplay --set [channel_id]</b> — Set linked channel
-
-<b>⚙️ Behavior:</b>
-• Links a channel to current group
-• All <code>c*</code> commands affect linked channel
-• Channel must be accessible by bot
-
-<b>🔒 Restrictions:</b>
-• Only <b>chat admins</b> can configure
-
-<b>💡 Examples:</b>
-<code>/channelplay --set -1001234567890</code>
-
-<b>⚠️ Notes:</b>
-• Get channel ID using forward + @userinfobot
-• Bot must be admin in linked channel
-• Use <code>/cplay</code> after setup`
-
-	helpTexts["/playforce"] = helpTexts["/fplay"]
-	helpTexts["/fcplay"] = helpTexts["/cfplay"]
-	helpTexts["/cvplay"] = helpTexts["/vcplay"]
+	helpTexts["/oynatzorla"] = helpTexts["/foynat"]
+	helpTexts["/fkoynat"] = helpTexts["/kfoynat"]
+	helpTexts["/kvoynat"] = helpTexts["/vokoynat"]
 }
 
 func channelPlayHandler(m *tg.NewMessage) error {
