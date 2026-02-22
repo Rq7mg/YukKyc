@@ -1,22 +1,6 @@
 /*
   - This file is part of YukkiMusic.
-    *
-
-  - YukkiMusic — A Telegram bot that streams music into group voice chats with seamless playback and control.
-  - Copyright (C) 2025 TheTeamVivek
-    *
-  - This program is free software: you can redistribute it and/or modify
-  - it under the terms of the GNU General Public License as published by
-  - the Free Software Foundation, either version 3 of the License, or
-  - (at your option) any later version.
-    *
-  - This program is distributed in the hope that it will be useful,
-  - but WITHOUT ANY WARRANTY; without even the implied warranty of
-  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-  - GNU General Public License for more details.
-    *
-  - You should have received a copy of the GNU General Public License
-  - along with this program. If not, see <https://www.gnu.org/licenses/>.
+  - Edited by KIYICI BOSS (@officialkiyici)
 */
 package modules
 
@@ -331,7 +315,7 @@ func prepareRoomAndSearchMessage(
 			"query": html.EscapeString(query),
 		})
 	} else {
-		searchStr = F(chatID, "searching")
+		searchStr = "**𝐌𝐞𝐯𝐳𝐮𝐲𝐮 𝐚𝐫𝐚𝐬̧𝐭𝐢𝐫𝐢𝐲𝐨𝐫𝐮𝐦, 𝐛𝐞𝐤𝐥𝐞 𝐛𝐞𝐛𝐞...**" // MUSTAFA ARAZ ŞİVESİ
 	}
 
 	replyMsg, err := m.Reply(searchStr)
@@ -823,10 +807,7 @@ func getErrorMessage(chatID int64, err error) string {
 	})
 }
 
-// Both safeDownload and safeGetTracks re-raise panic because all command
-// handlers are wrapped by SafeMessageHandler, which catches panics and sends
-// the debug trace to the logger and the owner.
-
+// KRİTİK GÜNCELLEME BURADA: MESSAGE_IDS_EMPTY hatasını engelleyen zırh!
 func safeGetTracks(
 	m, replyMsg *tg.NewMessage,
 	chatID int64,
@@ -840,6 +821,12 @@ func safeGetTracks(
 	}()
 
 	tracks, err = platforms.GetTracks(m, video)
+
+	// Eğer Telegram boş ID gönderdin diyorsa araya Kıyıcı Boss girer!
+	if err != nil && strings.Contains(err.Error(), "MESSAGE_IDS_EMPTY") {
+		return nil, errors.New("**𝐋𝐚 𝐠𝐚𝐫𝐝𝐚𝐬̧, 𝐯𝐢𝐝𝐞𝐨 𝐛𝐨𝐳𝐮𝐤 𝐯𝐞𝐲𝐚 𝐬𝐢𝐥𝐢𝐧𝐦𝐢𝐬̧ (𝐌𝐄𝐒𝐒𝐀𝐆𝐄_𝐈𝐃𝐒_𝐄𝐌𝐏𝐓𝐘). 𝐁𝐚𝐬̧𝐤𝐚 𝐛𝐢𝐫 𝐯𝐢𝐝𝐞𝐨 𝐝𝐞𝐧𝐞 𝐛𝐞𝐛𝐞!**")
+	}
+
 	return tracks, err
 }
 
